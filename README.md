@@ -6,6 +6,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `npm run start-server`
+
+Runs the app's Express middleware server to connect with the postgres backend.
+
 ### `npm start`
 
 Runs the app in the development mode.\
