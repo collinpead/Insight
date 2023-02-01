@@ -19,6 +19,8 @@
   text-align: center;
   border-collapse: separate;
   min-width: 40%;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }
 
 .Table-elements 
@@ -33,7 +35,6 @@
   padding-top: 10px;
   padding-bottom: 10px;
   padding-right: 10px;
-  margin-top: 90vh;
 }
 
 .App-header {

@@ -1,3 +1,4 @@
+const { request, response } = require('express')
 const creds = require('./obfuscation')
 
 const Pool = require('pg').Pool
@@ -41,8 +42,31 @@ const getTwitchTen = (request, response) => {
     })
 }
 
+const getTwitchHundred = (request, response) => {
+    pool.query('SELECT * FROM twitch_records WHERE date = CURRENT_DATE - 1 ORDER BY viewers DESC LIMIT 100',
+    (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+const getGameName = (request, response) => {
+    var gameName = request.params.gameName
+    pool.query(`SELECT current FROM steam_store_records WHERE name = '${gameName}' AND DATE > CURRENT_DATE - 7;`,
+    (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 module.exports = {
     getSteamTen,
     getTwitchTen,
-    getSteamHundred
+    getSteamHundred,
+    getTwitchHundred,
+    getGameName
 }
