@@ -1,6 +1,7 @@
 import '../App.css';
 
 const TableBody = ({ tableData, columns }) => {
+    
     return (
      <tbody className="Table-elements text-gray-300">
       {tableData.map((data) => {
@@ -10,8 +11,9 @@ const TableBody = ({ tableData, columns }) => {
             return (
             <td className='text-center'>
                 {accessor === 'name' ? 
-                <a href={`/game/${data[accessor].replace(/®|™|!|’/g, "")}`}> {data[accessor]} </a> : 
-                <div> {data[accessor]} </div> }
+                    <a href={`/game/${data[accessor].replace(/®|™|!|’/g, "")}`}> {data[accessor]} </a> 
+                    : 
+                    <a> {data[accessor]} </a> }
             </td>
             );
         })}

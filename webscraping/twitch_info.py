@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from config import config
 # Python postgreSQL connector library.
 import psycopg2
+from datetime import datetime
 
 # Uses config parameters to establish a connection to the database.
 def connect():
@@ -18,12 +19,16 @@ def connect():
 # Converts a string such as '100K Viewers' to the integer representation of the quantity with no alphabetical characters.
 def process_viewers(viewers):
     num_viewers = viewers.split(" ")[0]
+    is_viewers = viewers.split(" ")[1]
 
-    if ('K' in num_viewers):
-        num_viewers = num_viewers.replace('K', '')
-        num_viewers = float(num_viewers) * 1000
+    if (is_viewers == "Viewers"):
+        if ('K' in num_viewers):
+            num_viewers = num_viewers.replace('K', '')
+            num_viewers = float(num_viewers) * 1000
 
-    return int(num_viewers)
+        return int(num_viewers)
+    else:
+        return 0
 
 def fetch_twitch():
     conn = None
@@ -63,12 +68,11 @@ def fetch_twitch():
                         print("Could not find viewers for " + name)
                     else:
                         num_viewers = process_viewers(viewers)
-                        print(num_viewers)
                         csrs.execute("INSERT INTO twitch_records (id, date, name, viewers) VALUES (default, CURRENT_DATE, %s, %s)", (steam_name, num_viewers))
                         conn.commit()
 
             driver.close()
             conn.close()
             print("Twitch records session terminated.")
-
+            
 fetch_twitch()

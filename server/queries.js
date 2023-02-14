@@ -54,7 +54,7 @@ const getTwitchHundred = (request, response) => {
 
 const getGameName = (request, response) => {
     var gameName = request.params.gameName
-    pool.query(`SELECT current FROM steam_store_records WHERE name = '${gameName}' AND DATE > CURRENT_DATE - 7;`,
+    pool.query(`SELECT current, date FROM steam_store_records WHERE name = '${gameName}' AND DATE > CURRENT_DATE - 7;`,
     (error, results) => {
         if (error) {
             throw error

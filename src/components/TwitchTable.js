@@ -33,10 +33,10 @@ class TwitchTable extends Component {
           <TableHead columns={this.columns} /> 
           <TableBody columns={this.columns} tableData={this.state.records} />
           {this.props.type[0] === 'unexpanded' ?
-          <div className="text-purple-500 text-center">
+          <tfoot key="tfoot" className="text-purple-500 text-center">
             <a href={`/${this.props.type[1]}`}> View More </a>
-          </div> :
-          <div></div>
+          </tfoot> :
+          <tfoot key="tfoot"></tfoot>
           }
         </table>
     )}};
