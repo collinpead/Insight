@@ -4,6 +4,10 @@ This website compiles live player counts from the game distribution platform [St
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Notes on Necessary Excluded Files
+
+The Express server obtains credentials to make requests from the database through a file named 'obfuscation.js', which is not included in this repository to hide those credentials. Similarly, the webscraping scripts require a 'config.py' file, which creates the connection string, and a 'database.ini' file which contains the elements of the connection string, both of which are excluded from this repository to hide the database connection credentials.
+
 ## Available Scripts
 
 In the project directory, you can run:

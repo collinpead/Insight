@@ -1,7 +1,6 @@
 import '../App.css';
 
 const TableBody = ({ tableData, columns }) => {
-    
     return (
      <tbody className="Table-elements text-gray-300">
       {tableData.map((data) => {

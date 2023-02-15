@@ -52,9 +52,20 @@ const getTwitchHundred = (request, response) => {
     })
 }
 
-const getGameName = (request, response) => {
+const getGamePastWeek = (request, response) => {
     var gameName = request.params.gameName
     pool.query(`SELECT current, date FROM steam_store_records WHERE name = '${gameName}' AND DATE > CURRENT_DATE - 7;`,
+    (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+const getStreamPastWeek = (request, response) => {
+    var gameName = request.params.gameName
+    pool.query(`SELECT viewers, date FROM twitch_records WHERE name = '${gameName}' AND DATE > CURRENT_DATE - 7;`,
     (error, results) => {
         if (error) {
             throw error
@@ -68,5 +79,6 @@ module.exports = {
     getTwitchTen,
     getSteamHundred,
     getTwitchHundred,
-    getGameName
+    getGamePastWeek,
+    getStreamPastWeek
 }
