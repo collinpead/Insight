@@ -43,32 +43,35 @@ def fetch_twitch():
             # Create a cursor with the database connection.
             csrs = conn.cursor()
             print("Successfully connected to database.")
-            csrs.execute("SELECT ss_name, sg_name FROM sg_address")
+            csrs.execute("SELECT name, address FROM game_list")
             names = csrs.fetchall()
 
             opts = webdriver.FirefoxOptions()
+            # Webdriver does not open a visible browser tab.
             opts.add_argument("--headless")
+            # Webdriver only waits for the DOM content to be fully loaded.
+            # opts.page_load_strategy = 'eager'
             driver = webdriver.Firefox(options=opts)
 
             for name in names:
                 steam_name = name[0]
-                name = name[1].replace("_", " ")
+                url_name = name[1]
+                
                 # Skip if game exists on Steam, but does not exist on Twitch.
-                if (name == 'DNE'):
+                if (url_name == 'DNE'):
                     continue
                 else:
-                    viewers = ""
                     # Wait to allow the DOM to load
                     driver.implicitly_wait(5)
-                    driver.get("https://www.twitch.tv/directory/game/" + name)
+                    driver.get("https://www.twitch.tv/directory/game/" + url_name)
                     try:
                         viewers_xpath = "/html/body/div[1]/div/div[2]/div/main/div[1]/div[3]/div/div/div/div/div/section/div[1]/div[2]/div/div[2]/div[2]/div[1]/p"
                         viewers = driver.find_element(By.XPATH, viewers_xpath).text
                     except:
-                        print("Could not find viewers for " + name)
+                        print("Could not find viewers for " + url_name)
                     else:
                         num_viewers = process_viewers(viewers)
-                        csrs.execute("INSERT INTO twitch_records (id, date, name, viewers) VALUES (default, CURRENT_DATE, %s, %s)", (steam_name, num_viewers))
+                        csrs.execute("INSERT INTO twitch_records_hourly (id, timestamp, name, viewers) VALUES (default, LOCALTIMESTAMP, %s, %s)", (steam_name, num_viewers))
                         conn.commit()
 
             driver.close()

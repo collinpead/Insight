@@ -32,13 +32,14 @@ def fetch_steam():
             opts = webdriver.FirefoxOptions()
             opts.add_argument("--headless")
             driver = webdriver.Firefox(options=opts)
-            # Wait 2 seconds for the page to load the DOM.
-            driver.implicitly_wait(2)
+            # Wait 3 seconds for the page to load the DOM.
+            driver.implicitly_wait(3)
             driver.get("https://store.steampowered.com/charts/mostplayed")
 
             for i in range(1, 101):
                 game_xpath = "/html/body/div[1]/div[7]/div[6]/div/div[4]/div/div/div/div/div[3]/table/tbody/tr[" + str(i) + "]/td[3]/a/div"
                 name = str(driver.find_element(By.XPATH, game_xpath).text)
+                name.replace("'","’")
                 
                 game_avg_ccp_xpath = "/html/body/div[1]/div[7]/div[6]/div/div[4]/div/div/div/div/div[3]/table/tbody/tr[" + str(i) + "]/td[5]"
                 current = driver.find_element(By.XPATH, game_avg_ccp_xpath).text
@@ -48,7 +49,7 @@ def fetch_steam():
                 peak = driver.find_element(By.XPATH, game_pk_ccp_xpath).text
                 peak = peak.replace(",", "")
 
-                csrs.execute("INSERT INTO steam_store_records (id, date, name, current, peak) VALUES (default, CURRENT_DATE, %s, %s, %s);", (name, current, peak))
+                csrs.execute("INSERT INTO steam_store_records_hourly (id, timestamp, name, current, peak) VALUES (default, LOCALTIMESTAMP, %s, %s, %s);", (name, current, peak))
                 conn.commit()
             
             conn.close()
