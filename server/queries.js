@@ -1,6 +1,7 @@
 const { request, response } = require('express')
 const creds = require('./obfuscation')
 
+
 const Pool = require('pg').Pool
 const pool = new Pool({
     user: creds.getUsername(),
@@ -13,7 +14,8 @@ const pool = new Pool({
 })
 
 const getSteamTen = (request, response) => {
-    pool.query('SELECT * FROM steam_store_records WHERE date = CURRENT_DATE - 1 ORDER BY current DESC LIMIT 10',
+    const query =`SELECT * FROM steam_store_records_hourly WHERE timestamp > LOCALTIMESTAMP - INTERVAL '1 HOUR' ORDER BY current DESC LIMIT 10`
+    pool.query(query,
     (error, results) => {
         if (error) {
             throw error
@@ -23,7 +25,8 @@ const getSteamTen = (request, response) => {
 }
 
 const getSteamHundred = (request, response) => {
-    pool.query('SELECT * FROM steam_store_records WHERE date = CURRENT_DATE - 1 ORDER BY current DESC LIMIT 100',
+    const query ='SELECT * FROM steam_store_records_hourly WHERE timestamp > LOCALTIMESTAMP - INTERVAL' + "'1 HOUR'" + ' ORDER BY current DESC LIMIT 100'
+    pool.query(query,
     (error, results) => {
         if (error) {
             throw error
@@ -33,7 +36,8 @@ const getSteamHundred = (request, response) => {
 }
 
 const getTwitchTen = (request, response) => {
-    pool.query('SELECT * FROM twitch_records WHERE date = CURRENT_DATE - 1 ORDER BY viewers DESC LIMIT 10',
+    const query ='SELECT * FROM twitch_records_hourly WHERE timestamp > LOCALTIMESTAMP - INTERVAL' + "'1 HOUR'" + ' ORDER BY viewers DESC LIMIT 10'
+    pool.query(query,
     (error, results) => {
         if (error) {
             throw error
@@ -43,7 +47,8 @@ const getTwitchTen = (request, response) => {
 }
 
 const getTwitchHundred = (request, response) => {
-    pool.query('SELECT * FROM twitch_records WHERE date = CURRENT_DATE - 1 ORDER BY viewers DESC LIMIT 100',
+    const query = 'SELECT * FROM twitch_records_hourly WHERE timestamp > LOCALTIMESTAMP - INTERVAL' + "'1 HOUR'" + ' ORDER BY viewers DESC LIMIT 100'
+    pool.query(query,
     (error, results) => {
         if (error) {
             throw error
@@ -54,7 +59,8 @@ const getTwitchHundred = (request, response) => {
 
 const getGamePastWeek = (request, response) => {
     var gameName = request.params.gameName
-    pool.query(`SELECT current, date FROM steam_store_records WHERE name = '${gameName}' AND DATE > CURRENT_DATE - 7;`,
+    const query = `SELECT current, timestamp FROM steam_store_records_hourly WHERE name = '${gameName}' AND timestamp > (LOCALTIMESTAMP - INTERVAL '168 HOURS');`
+    pool.query(query,
     (error, results) => {
         if (error) {
             throw error
@@ -65,7 +71,7 @@ const getGamePastWeek = (request, response) => {
 
 const getStreamPastWeek = (request, response) => {
     var gameName = request.params.gameName
-    pool.query(`SELECT viewers, date FROM twitch_records WHERE name = '${gameName}' AND DATE > CURRENT_DATE - 7;`,
+    pool.query(`SELECT viewers, timestamp FROM twitch_records_hourly WHERE name = '${gameName}' AND timestamp > (LOCALTIMESTAMP - INTERVAL '168 HOURS');`,
     (error, results) => {
         if (error) {
             throw error

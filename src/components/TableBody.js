@@ -10,7 +10,7 @@ const TableBody = ({ tableData, columns }) => {
             return (
             <td className='text-center'>
                 {accessor === 'name' ? 
-                    <a href={`/game/${data[accessor].replace(/®|™|!|’/g, "")}`}> {data[accessor]} </a> 
+                    <a href={`/game/${data[accessor]}`}> {data[accessor]} </a> 
                     : 
                     <a> {data[accessor]} </a> }
             </td>

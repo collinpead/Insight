@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import SteamTSChart from '../components/SteamTSChart';
 import TwitchTSChart from '../components/TwitchTSChart';
+import CombinedTSChart from '../components/CombinedTSChart';
 import '../App.css';
 
-/* On launch start with npm start AND npm run start-server. */
 function App() {
 let params = useParams()
 let game_route = "/game/".concat(params.gameName)
@@ -29,7 +29,7 @@ let twitch_route = "/twitch/".concat(params.gameName)
               <h3 className='ChartLabels text-2xl'> Combined </h3>
             </row>
             <row className='Row'>
-              <SteamTSChart route={game_route}/>
+              <CombinedTSChart steam_route={game_route} twitch_route={twitch_route}/>
             </row>
           </div>
       </main>

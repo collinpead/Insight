@@ -3,27 +3,7 @@ import Chart from "react-apexcharts";
 
 const SteamTSChart = ({ route }) => {        
 
-  const date = new Date();
-  let mm = date.getMonth() + 1;
-  let dd = date.getDate();
-
-  var past_week = [];
-
-  /* Date label formatter */
-  for (let i = 7; i > 0; i--)
-  {
-      if (mm < 10 && (dd - i) < 10)
-          past_week.push("0".concat((mm.toString()) + "/0" + (dd - i).toString()))
-      else if (mm < 10)
-          past_week.push("0".concat((mm.toString()) + "/" + (dd - i).toString()))
-      else if ((dd - i) < 10)
-          past_week.push("".concat((mm.toString()) + "/0" + (dd - i).toString()))
-      else
-          past_week.push("".concat((mm.toString()) + "/" + (dd - i).toString()))
-
-  }
-
-  const [options, setOptions] = useState({
+  const [options, _] = useState({
     chart: {
       id: "basic-line",
       toolbar: {
@@ -31,20 +11,23 @@ const SteamTSChart = ({ route }) => {
       }
     },
     xaxis: {
-      categories: past_week,
+      type: 'datetime',
+      categories: [],
       labels: {
           style: {
-              colors: Array(past_week.length).fill('#888888')
+              colors: '#888888'
           }
       }
     },
     yaxis: {
       labels: {
           style: {
-              colors: ['#888888']
+              colors: '#888888'
           }
       }
     },
+    /* Color of the line on the chart. */
+    colors: ['#7214f7']
   })
 
   const [series, setSeries] = useState([{
@@ -58,10 +41,15 @@ const SteamTSChart = ({ route }) => {
       try {
         const list = []
         const newSeries = []
+
         const response = await fetch(route);
         const records = await response.json();
-        records.forEach((record) => { list.push(record.viewers) })
-        newSeries.push({ data: list, name: "series-2"})
+
+        records.forEach((record) => {
+                                      list.push({x: record.timestamp, y: record.viewers})
+                                    })
+        newSeries.push({ data: list, name: "Twitch Viewers"})
+
         setSeries(newSeries)
       }
       catch (error) {
