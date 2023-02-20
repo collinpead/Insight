@@ -31,14 +31,14 @@ class SteamTable extends Component {
     return (
       /* Proper border spacing is important for good looking tables */
       <table className="Table border-spacing-x-2.5 border-spacing-y-1 bg-gray-800 text-white rounded shadow-md">
-        <TableHead columns={this.columns} /> 
-        <TableBody columns={this.columns} tableData={this.state.records}/>
-      {this.props.type[0] === 'unexpanded' ?
-      <div className="text-purple-500 text-center">
-        <a href={`/${this.props.type[1]}/100`}> View More </a>
-      </div> :
-      <div></div>
-      }
+          <TableHead columns={this.columns} /> 
+          <TableBody columns={this.columns} tableData={this.state.records}/>
+        {this.props.type[0] === 'unexpanded' ?
+        <tfoot key="tfoot" className="text-purple-500 text-center">
+          <a href={`/${this.props.type[1]}`}> View More </a>
+        </tfoot> :
+        <tfoot key="tfoot"></tfoot>
+        }
       </table>
     )}};
 

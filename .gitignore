@@ -2,11 +2,14 @@
 
 # credentials
 /server/obfuscation.js
+/webscraping/config.py
+/webscraping/database.ini
 
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
+/webscraping/geckodriver
 
 # testing
 /coverage
