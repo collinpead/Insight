@@ -37,9 +37,17 @@
 
 .Row {
   margin: 0 auto;
+  margin-top: 1vh;
   margin-bottom: 2vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.Button {
+  margin-right: 5px;
+  padding-left: 7px;
+  padding-right: 7px;
 }
 
 .Table-elements 
