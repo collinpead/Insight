@@ -67,9 +67,9 @@ const SteamTSChart = ({ route }) => {
         type="line"
         width="500"
         />
-
     </div>
   );
 };
    
    export default SteamTSChart;
+   
