@@ -4,8 +4,6 @@
 
 .Nav {
   font-family: 'Monserrrat', sans-serif;
-  justify-self: start;
-  text-align: left;
   display: flex;
   padding-bottom: 10px;
 }
@@ -37,9 +35,50 @@
 
 .Row {
   margin: 0 auto;
+  margin-top: 1vh;
   margin-bottom: 2vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.Button {
+  margin-right: 5px;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.GameSearch {
+  min-width: 300px;
+  min-height: 35px;
+  margin-right: 5px;
+}
+
+.Search {
+  border-radius: 5px;
+  font-family: 'Monserrrat', sans-serif;
+  width: 40vh;
+  height: 4vh;
+  margin-left: 1vh;
+  margin-right: 2vh;
+  margin-top:  5px;
+  text-indent: 10px;
+}
+
+.SearchResults {
+  margin-top: 5px;
+  width: 300px;
+  height: 200px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+::placeholder {
+  font-size: x-large;
+  color: #1f2937 !important;
+  background-color: #ffffff;
 }
 
 .Table-elements 

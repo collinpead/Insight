@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/steam" element={<SteamPage/>}/>
         <Route path="/twitch" element={<TwitchPage/>}/>
-        <Route path="/game/:gameName" element={<GamePage/>}/>
+        <Route path="/game/:gameName/:time" element={<GamePage/>}/>
       </Routes>
     </div>
   );

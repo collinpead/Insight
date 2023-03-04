@@ -2,25 +2,7 @@ import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 
 const SteamTSChart = ({ steam_route, twitch_route }) => {        
-  /*   const date = new Date();
-  let mm = date.getMonth() + 1;
-  let dd = date.getDate();
-
-  var past_week = [];
-
-  for (let i = 7; i > 0; i--)
-  {
-      if (mm < 10 && (dd - i) < 10)
-          past_week.push("0".concat((mm.toString()) + "/0" + (dd - i).toString()))
-      else if (mm < 10)
-          past_week.push("0".concat((mm.toString()) + "/" + (dd - i).toString()))
-      else if ((dd - i) < 10)
-          past_week.push("".concat((mm.toString()) + "/0" + (dd - i).toString()))
-      else
-          past_week.push("".concat((mm.toString()) + "/" + (dd - i).toString()))
-
-  } 
-  */
+  
   const [options, setOptions] = useState({
     chart: {
       id: "basic-line",
@@ -116,3 +98,4 @@ const SteamTSChart = ({ steam_route, twitch_route }) => {
 };
    
    export default SteamTSChart;
+   

@@ -59,7 +59,8 @@ const getTwitchHundred = (request, response) => {
 
 const getGamePastWeek = (request, response) => {
     var gameName = request.params.gameName
-    const query = `SELECT current, timestamp FROM steam_store_records_hourly WHERE name = '${gameName}' AND timestamp > (LOCALTIMESTAMP - INTERVAL '168 HOURS');`
+    var hours = Number(request.params.time) * 24
+    const query = `SELECT current, timestamp FROM steam_store_records_hourly WHERE name = '${gameName}' AND timestamp > (LOCALTIMESTAMP - INTERVAL '${hours} HOURS');`
     pool.query(query,
     (error, results) => {
         if (error) {
@@ -71,7 +72,23 @@ const getGamePastWeek = (request, response) => {
 
 const getStreamPastWeek = (request, response) => {
     var gameName = request.params.gameName
-    pool.query(`SELECT viewers, timestamp FROM twitch_records_hourly WHERE name = '${gameName}' AND timestamp > (LOCALTIMESTAMP - INTERVAL '168 HOURS');`,
+    var hours = Number(request.params.time) * 24
+    pool.query(`SELECT viewers, timestamp FROM twitch_records_hourly WHERE name = '${gameName}' AND timestamp > (LOCALTIMESTAMP - INTERVAL '${hours} HOURS');`,
+    (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+/* use this later maybe to fix address issues
+SELECT current, peak, address, timestamp FROM steam_store_records_hourly JOIN game_list ON steam_store_records_hourly.name = '雀魂麻將(MahjongSoul)
+(not available in your region)' AND game_list.name = '雀魂麻將(MahjongSoul)
+(not available in your region)';*/
+
+const getGameNames = (request, response) => {
+    pool.query(`SELECT name FROM game_list;`,
     (error, results) => {
         if (error) {
             throw error
@@ -86,5 +103,6 @@ module.exports = {
     getSteamHundred,
     getTwitchHundred,
     getGamePastWeek,
-    getStreamPastWeek
+    getStreamPastWeek,
+    getGameNames
 }
