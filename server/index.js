@@ -26,6 +26,8 @@ app.get("/twitch/100", db.getTwitchHundred)
 app.get("/game/:gameName/:time", db.getGamePastWeek)
 app.get("/twitch/:gameName/:time", db.getStreamPastWeek)
 
+app.get("/games", db.getGameNames)
+
 app.get("/api", (req, res) => {
   res.json({ info: "Node.js, Express, and Postgres API" });
 });

@@ -1,0 +1,13 @@
+.ResultsList {
+    right: 0;
+    display: inline-grid;
+    position: absolute;
+    max-height: 500px;
+    overflow-y: scroll;
+    justify-self: end;
+}
+
+.ResultItem {
+    min-width: 400px;
+    max-width: 400px;
+}

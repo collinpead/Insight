@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import SteamTSChart from '../components/SteamTSChart';
 import TwitchTSChart from '../components/TwitchTSChart';
 import CombinedTSChart from '../components/CombinedTSChart';
+import SearchResults from '../components/SearchResults';
 import '../App.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
   console.log(game_route)
 
   const [activeButton, setActiveButton] = useState(process_time(params.time))
+  const [results, setResults] = useState([]);
 
   /* Returns the appropriate time index for the active button state. Default to 7D. */
   function process_time(time) {
@@ -62,7 +64,8 @@ function App() {
   return (
     /* Determines the background color of the whole page*/
     <div className='bg-gray-400'>
-      <Navbar></Navbar>
+      <Navbar setResults={setResults} showSearch={false}></Navbar>
+      <SearchResults results={results}></SearchResults>
       <main className='text-center h-full'>
           <div className='text-gray-800 text-lg font-bold'>
             <h1 className='text-3xl'> {params.gameName} </h1>

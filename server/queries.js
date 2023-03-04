@@ -82,11 +82,27 @@ const getStreamPastWeek = (request, response) => {
     })
 }
 
+/* use this later maybe to fix address issues
+SELECT current, peak, address, timestamp FROM steam_store_records_hourly JOIN game_list ON steam_store_records_hourly.name = '雀魂麻將(MahjongSoul)
+(not available in your region)' AND game_list.name = '雀魂麻將(MahjongSoul)
+(not available in your region)';*/
+
+const getGameNames = (request, response) => {
+    pool.query(`SELECT name FROM game_list;`,
+    (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 module.exports = {
     getSteamTen,
     getTwitchTen,
     getSteamHundred,
     getTwitchHundred,
     getGamePastWeek,
-    getStreamPastWeek
+    getStreamPastWeek,
+    getGameNames
 }
