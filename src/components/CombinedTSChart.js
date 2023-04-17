@@ -57,18 +57,49 @@ const SteamTSChart = ({ steam_route, twitch_route }) => {
 
         const steam_response = await fetch(steam_route);
         const steam_records = await steam_response.json();
+        let index = 0;
+        let sum = 0;
+        let hoursInWeek = 168;
 
-        steam_records.forEach((record) => { 
-                                            steam_list.push({x: record.timestamp, y: record.current})
-                                          })
+        /* Switch from hourly to daily cumulative average when plotting 30 day or 90 day charts */
+        if (steam_records.length > hoursInWeek) {
+          steam_records.forEach((record) => { 
+            sum += record.current;
+            if (index % 24 == 23) {
+              steam_list.push({x: record.timestamp, y: Math.floor(sum / 24)});
+              sum = 0;
+            }
+            index++;
+          })
+        }
+        else {
+          steam_records.forEach((record) => { 
+            steam_list.push({x: record.timestamp, y: record.current});
+          })
+        }
         const new_steam_series = { data: steam_list, type: "line", name: "Steam Players", colors: ['#9f53e8'] }
 
         const twitch_response = await fetch(twitch_route);
         const twitch_records = await twitch_response.json();
+        index = 0;
+        sum = 0;
 
-        twitch_records.forEach((record) => {
-                                            twitch_list.push({x: record.timestamp, y: record.viewers})
-                                           })
+
+        if (twitch_records.length > hoursInWeek) {
+          twitch_records.forEach((record) => { 
+            sum += record.viewers;
+            if (index % 24 == 23) {
+              twitch_list.push({x: record.timestamp, y: Math.floor(sum / 24)});
+              sum = 0;
+            }
+            index++;
+          })
+        }
+        else {
+          twitch_records.forEach((record) => { 
+            twitch_list.push({x: record.timestamp, y: record.viewers});
+          })
+        }
         const new_twitch_series = { data: twitch_list, type: "line", name: "Twitch Viewers", colors: ['#9f53e8'] }
         
         const newSeries = []

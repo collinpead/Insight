@@ -39,7 +39,7 @@ def lookup():
                 address = address.replace("®", "")
                 address = address.replace("™", "")
 
-                csrs.execute("INSERT INTO temp_data (temp_name, temp_address, temp_flags) VALUES (%s, %s, %s)", (name[0], address, False))
+                csrs.execute("INSERT INTO temp_data (temp_name, temp_address) VALUES (%s, %s)", (name[0], address))
                 conn.commit()
 
             csrs.execute("INSERT INTO game_list (name, address, fk) SELECT DISTINCT temp_name, temp_address, temp_data.id FROM temp_data WHERE NOT EXISTS (SELECT name FROM game_list WHERE temp_data.temp_name = game_list.name);")

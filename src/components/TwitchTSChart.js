@@ -44,10 +44,24 @@ const SteamTSChart = ({ route }) => {
 
         const response = await fetch(route);
         const records = await response.json();
+        let index = 0;
+        let sum = 0;
 
-        records.forEach((record) => {
-                                      list.push({x: record.timestamp, y: record.viewers})
-                                    })
+        if (records.length > 200) {
+          records.forEach((record) => { 
+            sum += record.viewers;
+            if (index % 24 == 23) {
+              list.push({x: record.timestamp, y: Math.floor(sum / 24)});
+              sum = 0;
+            }
+            index++;
+          })
+        }
+        else {
+          records.forEach((record) => { 
+            list.push({x: record.timestamp, y: record.viewers});
+          })
+        }
         newSeries.push({ data: list, name: "Twitch Viewers"})
 
         setSeries(newSeries)

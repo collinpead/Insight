@@ -60,7 +60,7 @@ const getTwitchHundred = (request, response) => {
 const getGamePastWeek = (request, response) => {
     var gameName = request.params.gameName
     var hours = Number(request.params.time) * 24
-    const query = `SELECT current, timestamp FROM steam_store_records_hourly WHERE name = '${gameName}' AND timestamp > (LOCALTIMESTAMP - INTERVAL '${hours} HOURS');`
+    const query = `SELECT current, timestamp FROM steam_store_records_hourly WHERE name = '${gameName}' AND timestamp > (LOCALTIMESTAMP - INTERVAL '${hours} HOURS') ORDER BY timestamp;`
     pool.query(query,
     (error, results) => {
         if (error) {
@@ -73,7 +73,7 @@ const getGamePastWeek = (request, response) => {
 const getStreamPastWeek = (request, response) => {
     var gameName = request.params.gameName
     var hours = Number(request.params.time) * 24
-    pool.query(`SELECT viewers, timestamp FROM twitch_records_hourly WHERE name = '${gameName}' AND timestamp > (LOCALTIMESTAMP - INTERVAL '${hours} HOURS');`,
+    pool.query(`SELECT viewers, timestamp FROM twitch_records_hourly WHERE name = '${gameName}' AND timestamp > (LOCALTIMESTAMP - INTERVAL '${hours} HOURS') ORDER BY timestamp;`,
     (error, results) => {
         if (error) {
             throw error
