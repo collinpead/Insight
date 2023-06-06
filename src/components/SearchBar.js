@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import '../App.css'
+import config from '../config.json';
 
 const SearchBar = ({ setResults, showSearch }) => {
 
     const [games, setGames] = useState([])
 
-    /* Establish a connection to the data sent from Express */
+    /* Fetch data through Express middleware. */
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const list = []
-                const route = '/games'
+                const uri = 'http://' + config.server.ip + ":" + config.server.port + this.props.route
 
-                const response = await fetch(route);
+                const response = await fetch(uri);
                 const records = await response.json();
-
                 records.forEach((record) => {
                                                 list.push({name: record.name})
                                             })

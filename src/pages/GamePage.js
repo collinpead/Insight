@@ -17,7 +17,7 @@ function App() {
   const [activeButton, setActiveButton] = useState(process_time(params.time))
   const [results, setResults] = useState([]);
 
-  /* Returns the appropriate time index for the active button state. Default to 7D. */
+  /* Returns the appropriate time index for the active button state. Default to 7 days. */
   function process_time(time) {
     if(time === '1')
       return 0

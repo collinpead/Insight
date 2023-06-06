@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 import '../App.css';
+import config from '../config.json'
 
 class SteamTable extends Component {
 
@@ -12,9 +13,10 @@ class SteamTable extends Component {
     }
   }
   
-  route = this.props.route
+  uri = 'http://' + config.server.ip + ":" + config.server.port + this.props.route
   componentDidMount() {
-    fetch(this.route)
+    console.log(this.uri)
+    fetch(this.uri)
     .then(res => res.json())
     .then(records => {
         this.setState({ records: records });

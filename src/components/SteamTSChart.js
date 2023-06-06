@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import config from '../config.json'
 
 const SteamTSChart = ({ route }) => {        
 
-  const [options, _] = useState({
+  const [options] = useState({
     chart: {
       id: "basic-line",
       toolbar: {
@@ -41,7 +42,8 @@ const SteamTSChart = ({ route }) => {
         const list = []
         const newSeries = []
         
-        const response = await fetch(route);
+        const uri = 'http://' + config.server.ip + ":" + config.server.port + this.props.route
+        const response = await fetch(uri);
         const records = await response.json();
         let index = 0;
         let sum = 0;
@@ -49,7 +51,7 @@ const SteamTSChart = ({ route }) => {
         if (records.length > 200) {
           records.forEach((record) => { 
             sum += record.current;
-            if (index % 24 == 23) {
+            if (index % 24 === 23) {
               list.push({x: record.timestamp, y: Math.floor(sum / 24)});
               sum = 0;
             }
@@ -85,5 +87,5 @@ const SteamTSChart = ({ route }) => {
   );
 };
    
-   export default SteamTSChart;
+export default SteamTSChart;
    

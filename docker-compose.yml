@@ -1,0 +1,33 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+    - "3000:3000"
+    networks:
+      - insight_net
+    links:
+      - server
+    depends_on:
+      - server
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    ports:
+    - "3001:3001"
+    environment:
+      - PGHOST=172.18.0.1
+      - PGPORT=5432
+      - PGUSER=react
+      - PGPASSWORD=password
+      - PGDATABASE=insight
+    networks:
+      - insight_net
+
+networks:
+  insight_net:
+    external: true
+

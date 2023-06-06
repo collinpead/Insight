@@ -1,14 +1,13 @@
 const { request, response } = require('express')
-const creds = require('./obfuscation')
-
+require('dotenv').config()
 
 const Pool = require('pg').Pool
 const pool = new Pool({
-    user: creds.getUsername(),
-    host: creds.getHost(),
-    database: creds.getDatabase(),
-    password: creds.getPassword(),
-    port: 5432,
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DATABASE,
+    password: process.env.DB_PASS,
+    port: process.env.DB_PORT,
     idleTimeoutMillis: 0,
     connectionTimeoutMillis: 0
 })
@@ -81,11 +80,6 @@ const getStreamPastWeek = (request, response) => {
         response.status(200).json(results.rows)
     })
 }
-
-/* use this later maybe to fix address issues
-SELECT current, peak, address, timestamp FROM steam_store_records_hourly JOIN game_list ON steam_store_records_hourly.name = '雀魂麻將(MahjongSoul)
-(not available in your region)' AND game_list.name = '雀魂麻將(MahjongSoul)
-(not available in your region)';*/
 
 const getGameNames = (request, response) => {
     pool.query(`SELECT name FROM game_list;`,

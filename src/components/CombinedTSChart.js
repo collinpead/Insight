@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import config from '../config.json';
 
-const SteamTSChart = ({ steam_route, twitch_route }) => {        
+const CombinedTSChart = ({ steam_route, twitch_route }) => {        
   
-  const [options, setOptions] = useState({
+  const [options] = useState({
     chart: {
       id: "basic-line",
       toolbar: {
@@ -55,7 +56,8 @@ const SteamTSChart = ({ steam_route, twitch_route }) => {
         const steam_list = []
         const twitch_list = []
 
-        const steam_response = await fetch(steam_route);
+        const steam_uri = 'http://' + config.server.ip + ":" + config.server.port + this.props.route
+        const steam_response = await fetch(steam_uri);
         const steam_records = await steam_response.json();
         let index = 0;
         let sum = 0;
@@ -65,7 +67,7 @@ const SteamTSChart = ({ steam_route, twitch_route }) => {
         if (steam_records.length > hoursInWeek) {
           steam_records.forEach((record) => { 
             sum += record.current;
-            if (index % 24 == 23) {
+            if (index % 24 === 23) {
               steam_list.push({x: record.timestamp, y: Math.floor(sum / 24)});
               sum = 0;
             }
@@ -77,9 +79,10 @@ const SteamTSChart = ({ steam_route, twitch_route }) => {
             steam_list.push({x: record.timestamp, y: record.current});
           })
         }
-        const new_steam_series = { data: steam_list, type: "line", name: "Steam Players", colors: ['#9f53e8'] }
+        const new_steam_series = { data: steam_list, type: "line", name: "Steam Players", colors: ['#9f53e8'] };
 
-        const twitch_response = await fetch(twitch_route);
+        const twitch_uri = 'http://' + config.server.ip + ":" + config.server.port + this.props.route;
+        const twitch_response = await fetch(twitch_uri);
         const twitch_records = await twitch_response.json();
         index = 0;
         sum = 0;
@@ -88,7 +91,7 @@ const SteamTSChart = ({ steam_route, twitch_route }) => {
         if (twitch_records.length > hoursInWeek) {
           twitch_records.forEach((record) => { 
             sum += record.viewers;
-            if (index % 24 == 23) {
+            if (index % 24 === 23) {
               twitch_list.push({x: record.timestamp, y: Math.floor(sum / 24)});
               sum = 0;
             }
@@ -128,5 +131,5 @@ const SteamTSChart = ({ steam_route, twitch_route }) => {
   );
 };
    
-   export default SteamTSChart;
+export default CombinedTSChart;
    

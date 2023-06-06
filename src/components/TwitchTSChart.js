@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import config from '../config.json';
 
-const SteamTSChart = ({ route }) => {        
+const TwitchTSChart = ({ route }) => {        
 
-  const [options, _] = useState({
+  const [options] = useState({
     chart: {
       id: "basic-line",
       toolbar: {
@@ -28,21 +29,22 @@ const SteamTSChart = ({ route }) => {
     },
     /* Color of the line on the chart. */
     colors: ['#7214f7']
-  })
+  });
 
   const [series, setSeries] = useState([{
       name: "series-1",
       data: []
-  }])
+  }]);
 
   /* Establish a connection to the data sent from Express */
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const list = []
-        const newSeries = []
+        const list = [];
+        const newSeries = [];
 
-        const response = await fetch(route);
+        const uri = 'http://' + config.server.ip + ":" + config.server.port + this.props.route;
+        const response = await fetch(uri);
         const records = await response.json();
         let index = 0;
         let sum = 0;
@@ -50,7 +52,7 @@ const SteamTSChart = ({ route }) => {
         if (records.length > 200) {
           records.forEach((record) => { 
             sum += record.viewers;
-            if (index % 24 == 23) {
+            if (index % 24 === 23) {
               list.push({x: record.timestamp, y: Math.floor(sum / 24)});
               sum = 0;
             }
@@ -62,9 +64,9 @@ const SteamTSChart = ({ route }) => {
             list.push({x: record.timestamp, y: record.viewers});
           })
         }
-        newSeries.push({ data: list, name: "Twitch Viewers"})
+        newSeries.push({ data: list, name: "Twitch Viewers"});
 
-        setSeries(newSeries)
+        setSeries(newSeries);
       }
       catch (error) {
         console.log("error", error);
@@ -87,5 +89,5 @@ const SteamTSChart = ({ route }) => {
   );
 };
    
-   export default SteamTSChart;
+export default TwitchTSChart;
    
