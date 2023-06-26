@@ -4,6 +4,10 @@ import config from '../config.json';
 
 const TwitchTSChart = ({ route }) => {        
 
+  const getRoute = () => {
+    return route;
+  }
+
   const [options] = useState({
     chart: {
       id: "basic-line",
@@ -43,7 +47,7 @@ const TwitchTSChart = ({ route }) => {
         const list = [];
         const newSeries = [];
 
-        const uri = 'http://' + config.server.ip + ":" + config.server.port + this.props.route;
+        const uri = 'http://' + config.server.ip + ":" + config.server.port + getRoute();
         const response = await fetch(uri);
         const records = await response.json();
         let index = 0;
@@ -90,4 +94,3 @@ const TwitchTSChart = ({ route }) => {
 };
    
 export default TwitchTSChart;
-   

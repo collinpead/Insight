@@ -11,14 +11,14 @@ const SearchBar = ({ setResults, showSearch }) => {
         const fetchData = async () => {
             try {
                 const list = []
-                const uri = 'http://' + config.server.ip + ":" + config.server.port + this.props.route
+                const uri = 'http://' + config.server.ip + ":" + config.server.port + '/games'
 
                 const response = await fetch(uri);
                 const records = await response.json();
                 records.forEach((record) => {
                                                 list.push({name: record.name})
                                             })
-                setGames(list)
+                setGames(list);
             }
             catch (error) {
                 console.log("error", error);
@@ -36,7 +36,7 @@ const SearchBar = ({ setResults, showSearch }) => {
         if (searchValue.length > 0)
             setResults(newFilter);
         else
-            setResults([])
+            setResults([]);
     };
 
     return (

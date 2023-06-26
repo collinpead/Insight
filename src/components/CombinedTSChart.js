@@ -4,6 +4,14 @@ import config from '../config.json';
 
 const CombinedTSChart = ({ steam_route, twitch_route }) => {        
   
+  const getSteamRoute = () => {
+    return steam_route;
+  }
+
+  const getTwitchRoute = () => {
+    return twitch_route;
+  }
+
   const [options] = useState({
     chart: {
       id: "basic-line",
@@ -53,10 +61,10 @@ const CombinedTSChart = ({ steam_route, twitch_route }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const steam_list = []
-        const twitch_list = []
+        const steam_list = [];
+        const twitch_list = [];
 
-        const steam_uri = 'http://' + config.server.ip + ":" + config.server.port + this.props.route
+        const steam_uri = 'http://' + config.server.ip + ":" + config.server.port + getSteamRoute();
         const steam_response = await fetch(steam_uri);
         const steam_records = await steam_response.json();
         let index = 0;
@@ -81,7 +89,7 @@ const CombinedTSChart = ({ steam_route, twitch_route }) => {
         }
         const new_steam_series = { data: steam_list, type: "line", name: "Steam Players", colors: ['#9f53e8'] };
 
-        const twitch_uri = 'http://' + config.server.ip + ":" + config.server.port + this.props.route;
+        const twitch_uri = 'http://' + config.server.ip + ":" + config.server.port + getTwitchRoute();
         const twitch_response = await fetch(twitch_uri);
         const twitch_records = await twitch_response.json();
         index = 0;
@@ -132,4 +140,3 @@ const CombinedTSChart = ({ steam_route, twitch_route }) => {
 };
    
 export default CombinedTSChart;
-   
