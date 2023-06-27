@@ -2,7 +2,13 @@
 
 This website compiles live player counts from the game distribution platform [Steam](https://store.steampowered.com/charts/mostplayed) and live viewer counts from the streaming website [Twitch](https://www.twitch.tv/). These numbers are displayed and compared in order to help analyze the correlation between the popularity of certain games with their total viewership on livestreaming platforms.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Home Page
+
+![Screenshot](./img/home_page.png)
+
+## Game Page
+
+![Screenshot](./img/game_page.png)
 
 ## Notes on Excluded Files
 
